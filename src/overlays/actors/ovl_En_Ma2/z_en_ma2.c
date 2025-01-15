@@ -137,6 +137,7 @@ void func_80AA1AE4(EnMa2* this, PlayState* play) {
 }
 
 u16 func_80AA1B58(EnMa2* this, PlayState* play) {
+  //if (!LINK_IS_CHILD) {
     if (LINK_IS_CHILD) {
         return 0;
     }

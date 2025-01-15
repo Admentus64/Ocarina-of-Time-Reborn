@@ -40,7 +40,9 @@ void BgSpot07Taki_Init(Actor* thisx, PlayState* play) {
 
     DynaPolyActor_Init(&this->dyna, DYNA_TRANSFORM_POS);
     Actor_ProcessInitChain(&this->dyna.actor, sInitChain);
+  //if (gSaveContext.sceneLayer == SCENE_LAYER_ADULT_DAY) {
     if (LINK_IS_ADULT) {
+      //CollisionHeader_GetVirtual(this->dyna.actor.params == 0 ? &object_spot07_object_Col_002590 : &object_spot07_object_Col_0038FC, &colHeader);
         if (this->dyna.actor.params == 0) {
             CollisionHeader_GetVirtual(&object_spot07_object_Col_002590, &colHeader);
         } else {
@@ -72,6 +74,7 @@ void BgSpot07Taki_Draw(Actor* thisx, PlayState* play) {
 
     OPEN_DISPS(play->state.gfxCtx, "../z_bg_spot07_taki.c", 169);
     frames = play->gameplayFrames;
+  //if (gSaveContext.sceneLayer == SCENE_LAYER_ADULT_DAY) {
     if (LINK_IS_ADULT) {
         Gfx_SetupDL_25Opa(play->state.gfxCtx);
         MATRIX_FINALIZE_AND_LOAD(POLY_OPA_DISP++, play->state.gfxCtx, "../z_bg_spot07_taki.c", 177);
@@ -89,6 +92,7 @@ void BgSpot07Taki_Draw(Actor* thisx, PlayState* play) {
                Gfx_TwoTexScroll(play->state.gfxCtx, G_TX_RENDERTILE, ((frames * -1) & 0x7F), ((frames * 1) & 0x7F), 32,
                                 32, 1, ((frames * 1) & 0x7F), ((frames * 1) & 0x7F), 32, 32));
 
+  //if (gSaveContext.sceneLayer != SCENE_LAYER_ADULT_DAY) {
     if (!LINK_IS_ADULT) {
         gDPSetEnvColor(POLY_XLU_DISP++, 255, 255, 255, 128);
         if (this->dyna.actor.params == 0) {

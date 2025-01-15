@@ -1,0 +1,35 @@
+#ifndef ENTRA_N_SCENE_H
+#define ENTRA_N_SCENE_H 1
+
+extern SceneCmd entra_n_sceneCommands[];
+extern SceneCmd* market_entrance_night_sceneAlternateHeaders[];
+extern ActorEntry entra_n_sceneStartPositionList0x000068[];
+extern TransitionActorEntry entra_n_sceneTransitionActorList_000098[];
+extern RomFile entra_n_sceneRoomList0x0000A8[];
+extern Spawn entra_n_sceneEntranceList0x0000B0[];
+extern u16 entra_n_sceneExitList_0000B8[];
+extern EnvLightSettings entra_n_sceneLightSettings0x0000C0[];
+extern Vec3s entra_n_scenePathwayList_0000D8[];
+extern Path entra_n_scenePathway_000104[];
+extern Vec3s entra_n_sceneCollisionHeader_0003F8CamPosData[];
+extern BgCamInfo entra_n_sceneCollisionHeader_0003F8CamDataList[];
+extern SurfaceType entra_n_sceneCollisionHeader_0003F8SurfaceType[];
+extern CollisionPoly entra_n_sceneCollisionHeader_0003F8Polygons[];
+extern Vec3s entra_n_sceneCollisionHeader_0003F8Vertices[];
+extern CollisionHeader entra_n_sceneCollisionHeader_0003F8;
+extern SceneCmd market_entrance_night_sceneSet_adult[];
+extern ActorEntry market_entrance_night_sceneStartPositionList_adult[];
+extern TransitionActorEntry market_entrance_night_sceneTransitionActorList_adult[];
+extern RomFile market_entrance_night_sceneRoomList_adult[];
+extern Spawn market_entrance_night_sceneEntranceList_adult[];
+extern u16 market_entrance_night_sceneExitList_adult[];
+extern EnvLightSettings market_entrance_night_sceneLightSettings_adult[];
+extern Vec3s market_entrance_night_scenePathwayList_adult[];
+extern Path market_entrance_night_scenePathway_adult[];
+extern Vec3s entra_n_sceneCollisionHeader_adultCamPosData[];
+extern BgCamInfo market_entrance_night_sceneCollisionHeader_adultCamDataList[];
+extern SurfaceType market_entrance_night_sceneCollisionHeader_adultSurfaceType[];
+extern CollisionPoly market_entrance_night_sceneCollisionHeader_adultPolygons[];
+extern Vec3s market_entrance_night_sceneCollisionHeader_adultVertices[];
+extern CollisionHeader market_entrance_night_sceneCollisionHeader_adult;
+#endif

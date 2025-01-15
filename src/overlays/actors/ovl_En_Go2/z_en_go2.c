@@ -114,6 +114,7 @@ static EnGo2DataStruct2 D_80A481F8[14] = {
 };
 
 static f32 sPlayerTrackingYOffsets[14][2] = {
+  //{ 80.0f, 80.0f }, { -10.0f, 10.0f },  { 800.0f, 800.0f }, { 0.0f, 20.0f },  { 20.0f, 40.0f },
     { 80.0f, 80.0f }, { -10.0f, -10.0f }, { 800.0f, 800.0f }, { 0.0f, 0.0f },   { 20.0f, 40.0f },
     { 20.0f, 20.0f }, { 20.0f, 20.0f },   { 20.0f, 20.0f },   { 20.0f, 20.0f }, { 20.0f, 20.0f },
     { 20.0f, 20.0f }, { 20.0f, 20.0f },   { 20.0f, 20.0f },   { 20.0f, 20.0f },
@@ -396,6 +397,7 @@ s16 EnGo2_UpdateTalkStateGoronDmtRollingSmall(PlayState* play, EnGo2* this) {
 }
 
 u16 EnGo2_GetTextIdGoronDmtDcEntrance(PlayState* play, EnGo2* this) {
+  //if (CHECK_QUEST_ITEM(QUEST_MEDALLION_FIRE) && GET_EVENTCHKINF(EVENTCHKINF_45)) {
     if (CHECK_QUEST_ITEM(QUEST_MEDALLION_FIRE) && LINK_IS_ADULT) {
         return 0x3043;
     } else if (CHECK_QUEST_ITEM(QUEST_GORON_RUBY)) {
@@ -417,6 +419,7 @@ s16 EnGo2_UpdateTalkStateGoronDmtDcEntrance(PlayState* play, EnGo2* this) {
 }
 
 u16 EnGo2_GetTextIdGoronCityEntrance(PlayState* play, EnGo2* this) {
+  //if (CHECK_QUEST_ITEM(QUEST_MEDALLION_FIRE) && GET_EVENTCHKINF(EVENTCHKINF_45)) {
     if (CHECK_QUEST_ITEM(QUEST_MEDALLION_FIRE) && LINK_IS_ADULT) {
         return 0x3043;
     } else if (CHECK_QUEST_ITEM(QUEST_GORON_RUBY)) {
@@ -438,6 +441,7 @@ s16 EnGo2_UpdateTalkStateGoronCityEntrance(PlayState* play, EnGo2* this) {
 }
 
 u16 EnGo2_GetTextIdGoronCityIsland(PlayState* play, EnGo2* this) {
+  //if (CHECK_QUEST_ITEM(QUEST_MEDALLION_FIRE) && GET_EVENTCHKINF(EVENTCHKINF_45)) {
     if (CHECK_QUEST_ITEM(QUEST_MEDALLION_FIRE) && LINK_IS_ADULT) {
         return 0x3043;
     } else if (CHECK_QUEST_ITEM(QUEST_GORON_RUBY)) {
@@ -459,6 +463,7 @@ s16 EnGo2_UpdateTalkStateGoronCityIsland(PlayState* play, EnGo2* this) {
 }
 
 u16 EnGo2_GetTextIdGoronCityLowestFloor(PlayState* play, EnGo2* this) {
+  //if (CHECK_QUEST_ITEM(QUEST_MEDALLION_FIRE) && GET_EVENTCHKINF(EVENTCHKINF_45)) {
     if (CHECK_QUEST_ITEM(QUEST_MEDALLION_FIRE) && LINK_IS_ADULT) {
         return 0x3043;
     } else if (CHECK_QUEST_ITEM(QUEST_GORON_RUBY)) {
@@ -485,6 +490,7 @@ s16 EnGo2_UpdateTalkStateGoronCityLowestFloor(PlayState* play, EnGo2* this) {
 u16 EnGo2_GetTextIdGoronCityLink(PlayState* play, EnGo2* this) {
     if (CHECK_QUEST_ITEM(QUEST_MEDALLION_FIRE)) {
         return GET_INFTABLE(INFTABLE_10F) ? 0x3042 : 0x3041;
+  //} else if (GET_INFTABLE(INFTABLE_109)) {
     } else if (CHECK_OWNED_EQUIP(EQUIP_TYPE_TUNIC, EQUIP_INV_TUNIC_GORON)) {
         return GET_INFTABLE(INFTABLE_10E) ? 0x3038 : 0x3037;
     } else if (GET_INFTABLE(INFTABLE_10C)) {
@@ -501,6 +507,12 @@ s16 EnGo2_UpdateTalkStateGoronCityLink(PlayState* play, EnGo2* this) {
         case TEXT_STATE_CLOSING:
             switch (this->actor.textId) {
                 case 0x3036:
+                    /*if (!CHECK_OWNED_EQUIP(EQUIP_TYPE_TUNIC, EQUIP_INV_TUNIC_GORON)) {
+                        EnGo2_GetItem(this, play, GI_TUNIC_GORON);
+                        this->actionFunc = EnGo2_SetupGetItem;
+                        return NPC_TALK_STATE_ACTION;
+                    }
+                    else SET_INFTABLE(INFTABLE_109);*/
                     EnGo2_GetItem(this, play, GI_TUNIC_GORON);
                     this->actionFunc = EnGo2_SetupGetItem;
                     return NPC_TALK_STATE_ACTION;
@@ -664,6 +676,7 @@ s16 EnGo2_UpdateTalkStateGoronFireGeneric(PlayState* play, EnGo2* this) {
 }
 
 u16 EnGo2_GetTextIdGoronCityStairwell(PlayState* play, EnGo2* this) {
+  //return !GET_EVENTCHKINF(EVENTCHKINF_45) ? GET_INFTABLE(INFTABLE_E3) ? 0x3022 : 0x300E : 0x3043;
     return !LINK_IS_ADULT ? GET_INFTABLE(INFTABLE_E3) ? 0x3022 : 0x300E : 0x3043;
 }
 
@@ -692,6 +705,7 @@ s16 EnGo2_UpdateTalkStateGoronMarketBazaar(PlayState* play, EnGo2* this) {
 }
 
 u16 EnGo2_GetTextIdGoronCityLostWoods(PlayState* play, EnGo2* this) {
+  //if (!GET_EVENTCHKINF(EVENTCHKINF_45)) {
     if (!LINK_IS_ADULT) {
         if (Flags_GetSwitch(play, 0x1C)) {
             return 0x302F;
@@ -716,6 +730,7 @@ s16 EnGo2_UpdateTalkStateGoronCityLostWoods(PlayState* play, EnGo2* this) {
 
 // Goron at base of DMT summit
 u16 EnGo2_GetTextIdGoronDmtFairyHint(PlayState* play, EnGo2* this) {
+  //if (!GET_EVENTCHKINF(EVENTCHKINF_45)) {
     if (!LINK_IS_ADULT) {
         return CHECK_QUEST_ITEM(QUEST_GORON_RUBY) ? 0x3065 : 0x3064;
     } else {
@@ -1063,8 +1078,9 @@ void EnGo2_BiggoronSetTextId(EnGo2* this, PlayState* play, Player* player) {
                 gSaveContext.subTimerState = SUBTIMER_STATE_OFF;
             }
             player->actor.textId = this->actor.textId;
-
+        
         } else if (INV_CONTENT(ITEM_TRADE_ADULT) <= ITEM_BROKEN_GORONS_SWORD) {
+          //if (Actor_GetPlayerExchangeItemId(play) == EXCH_ITEM_BROKEN_GORONS_SWORD && CHECK_OWNED_EQUIP_ALT(EQUIP_TYPE_SWORD, EQUIP_INV_SWORD_BIGGORON)) {
             if (Actor_GetPlayerExchangeItemId(play) == EXCH_ITEM_BROKEN_GORONS_SWORD) {
                 if (GET_INFTABLE(INFTABLE_B4)) {
                     textId = 0x3055;
@@ -1174,6 +1190,7 @@ s32 EnGo2_IsCameraModified(EnGo2* this, PlayState* play) {
         PARAMS_GET_S(this->actor.params, 0, 5) == GORON_DMT_BIGGORON ||
         PARAMS_GET_S(this->actor.params, 0, 5) == GORON_MARKET_BAZAAR) {
         return true;
+  //} else if (!CHECK_QUEST_ITEM(QUEST_MEDALLION_FIRE) && GET_INFTABLE(INFTABLE_109)) {
     } else if (!CHECK_QUEST_ITEM(QUEST_MEDALLION_FIRE) && CHECK_OWNED_EQUIP(EQUIP_TYPE_TUNIC, EQUIP_INV_TUNIC_GORON)) {
         return true;
     } else {
@@ -1231,6 +1248,7 @@ void EnGo2_SelectGoronWakingUp(EnGo2* this) {
             EnGo2_BiggoronWakingUp(this);
             break;
         case GORON_CITY_LINK:
+          //if (!CHECK_QUEST_ITEM(QUEST_MEDALLION_FIRE) && GET_INFTABLE(INFTABLE_109)) {
             if (!CHECK_QUEST_ITEM(QUEST_MEDALLION_FIRE) && CHECK_OWNED_EQUIP(EQUIP_TYPE_TUNIC, EQUIP_INV_TUNIC_GORON)) {
                 EnGo2_WakingUp(this);
                 break;
@@ -1546,7 +1564,7 @@ void EnGo2_Init(Actor* thisx, PlayState* play) {
     EnGo2_SetShape(this);
     Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo, ENGO2_ANIM_0);
     this->actor.gravity = -1.0f;
-    this->alpha = this->actor.shape.shadowAlpha = 0;
+    this->alpha = this->actor.shape.shadowAlpha = 0; //
     this->reverse = 0;
     this->isAwake = false;
     this->unk_211 = false;
@@ -1561,12 +1579,14 @@ void EnGo2_Init(Actor* thisx, PlayState* play) {
         case GORON_CITY_LOWEST_FLOOR:
         case GORON_CITY_STAIRWELL:
         case GORON_CITY_LOST_WOODS:
+          //if (!CHECK_QUEST_ITEM(QUEST_MEDALLION_FIRE) && GET_EVENTCHKINF(EVENTCHKINF_45)) {
             if (!CHECK_QUEST_ITEM(QUEST_MEDALLION_FIRE) && LINK_IS_ADULT) {
                 Actor_Kill(&this->actor);
             }
             this->actionFunc = EnGo2_CurledUp;
             break;
         case GORON_MARKET_BAZAAR:
+          //if (GET_EVENTCHKINF(EVENTCHKINF_45) || !CHECK_QUEST_ITEM(QUEST_GORON_RUBY)) {
             if ((LINK_IS_ADULT) || !CHECK_QUEST_ITEM(QUEST_GORON_RUBY)) {
                 Actor_Kill(&this->actor);
             }
@@ -1576,6 +1596,7 @@ void EnGo2_Init(Actor* thisx, PlayState* play) {
             if (GET_INFTABLE(INFTABLE_109)) {
                 Path_CopyLastPoint(this->path, &this->actor.world.pos);
                 this->actor.home.pos = this->actor.world.pos;
+              //if (!CHECK_QUEST_ITEM(QUEST_MEDALLION_FIRE) && GET_INFTABLE(INFTABLE_109)) {
                 if (!CHECK_QUEST_ITEM(QUEST_MEDALLION_FIRE) &&
                     CHECK_OWNED_EQUIP(EQUIP_TYPE_TUNIC, EQUIP_INV_TUNIC_GORON)) {
                     EnGo2_GetItemAnimation(this, play);

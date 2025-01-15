@@ -302,6 +302,7 @@ void BgSpot01Idohashira_Init(Actor* thisx, PlayState* play) {
     this->dyna.bgId = DynaPoly_SetBgActor(play, &play->colCtx.dyna, &this->dyna.actor, colHeader);
 
     if (!IS_CUTSCENE_LAYER) {
+      //if (GET_EVENTCHKINF(EVENTCHKINF_54) && !LINK_IS_ADULT) {
         if (GET_EVENTCHKINF(EVENTCHKINF_54) && LINK_IS_ADULT) {
             Actor_Kill(&this->dyna.actor);
         } else {
@@ -310,6 +311,7 @@ void BgSpot01Idohashira_Init(Actor* thisx, PlayState* play) {
     } else if (gSaveContext.sceneLayer == 4) {
         this->action = 1;
         this->dyna.actor.shape.yOffset = -(kREG(10) + 1100.0f);
+  //} else if (gSaveContext.sceneLayer != 6) {
     } else if (gSaveContext.sceneLayer == 6) {
         this->action = 0;
     } else {

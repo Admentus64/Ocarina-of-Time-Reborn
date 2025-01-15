@@ -72,6 +72,7 @@ void BgTokiSwd_Init(Actor* thisx, PlayState* play) {
     this->actor.shape.yOffset = 800.0f;
     BgTokiSwd_SetupAction(this, func_808BAF40);
 
+  //if (GET_EVENTCHKINF(EVENTCHKINF_45) && gSaveContext.sceneLayer != 5) {
     if (LINK_IS_ADULT) {
         this->actor.draw = NULL;
     }
@@ -99,8 +100,11 @@ void func_808BAF40(BgTokiSwd* this, PlayState* play) {
         play->csCtx.script = gRevealMasterSwordCs;
         gSaveContext.cutsceneTrigger = 1;
     }
+  //if (!GET_EVENTCHKINF(EVENTCHKINF_45) || gSaveContext.sceneLayer == 5) {
     if (!LINK_IS_ADULT || GET_EVENTCHKINF(EVENTCHKINF_55)) {
         if (Actor_HasParent(&this->actor, play)) {
+          //Item_Give(play, ITEM_SWORD_MASTER);
+          //play->csCtx.script = gPullMasterSwordCs;
             if (!LINK_IS_ADULT) {
                 Item_Give(play, ITEM_SWORD_MASTER);
                 play->csCtx.script = gPullMasterSwordCs;

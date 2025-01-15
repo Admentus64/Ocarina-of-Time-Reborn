@@ -182,10 +182,10 @@ void EnTite_Init(Actor* thisx, PlayState* play) {
     SkelAnime_Init(play, &this->skelAnime, &object_tite_Skel_003A20, &object_tite_Anim_0012E4, this->jointTable,
                    this->morphTable, 25);
     ActorShape_Init(&thisx->shape, -200.0f, ActorShadow_DrawCircle, 70.0f);
-    this->flipState = TEKTITE_INITIAL;
+    this->flipState = TEKTITE_INITIAL; //
     thisx->colChkInfo.damageTable = sDamageTable;
-    this->actionVar1 = 0;
-    this->bodyBreak.val = BODYBREAK_STATUS_FINISHED;
+    this->actionVar1 = 0; //
+    this->bodyBreak.val = BODYBREAK_STATUS_FINISHED; //
     thisx->focus.pos = thisx->world.pos;
     thisx->focus.pos.y += 20.0f;
     thisx->colChkInfo.health = 2;
@@ -197,7 +197,13 @@ void EnTite_Init(Actor* thisx, PlayState* play) {
         this->unk_2DC |= UPDBGCHECKINFO_FLAG_6; // Don't use the actor engine's ripple spawning code
         thisx->colChkInfo.health = 4;
         thisx->naviEnemyId += NAVI_ENEMY_BLUE_TEKTITE - NAVI_ENEMY_RED_TEKTITE;
+      //thisx->naviEnemyId = NAVI_ENEMY_BLUE_TEKTITE;
     }
+  /*if (this->actor.params == TEKTITE_YELLOW) {
+        this->collider.elements[0].base.atDmgInfo.effect = 3; // Electric
+        thisx->colChkInfo.health = 6;
+        thisx->naviEnemyId = 0xB;
+    }*/
     EnTite_SetupIdle(this);
 }
 
@@ -342,6 +348,66 @@ void EnTite_Attack(EnTite* this, PlayState* play) {
         }
     }
 
+  /*if (this->vAttackState == TEKTITE_BEGIN_LUNGE) {
+        Math_SmoothStepToS(&this->actor.world.rot.y, this->actor.yawTowardsPlayer, 1, 1000, 0);
+        this->actor.shape.rot.y = this->actor.world.rot.y;
+        angleToPlayer = this->actor.yawTowardsPlayer - this->actor.shape.rot.y;
+        if ((this->actor.xzDistToPlayer > 300.0f) && (this->actor.yDistToPlayer > 80.0f)) {
+            EnTite_SetupIdle(this);
+        } else if (ABS(angleToPlayer) >= 9000) {
+            EnTite_SetupTurnTowardPlayer(this);
+        }
+    }
+    if (this->vAttackState == TEKTITE_MID_LUNGE) {
+        if (this->actor.velocity.y >= 5.0f && this->actor.bgCheckFlags & BGCHECKFLAG_GROUND) {
+            func_800355B8(play, &this->frontLeftFootPos);
+            func_800355B8(play, &this->frontRightFootPos);
+            func_800355B8(play, &this->backRightFootPos);
+            func_800355B8(play, &this->backLeftFootPos);
+        }
+        if (!(this->collider.base.atFlags & AT_HIT) && (this->actor.flags & ACTOR_FLAG_INSIDE_CULLING_VOLUME)) {
+            CollisionCheck_SetAT(play, &play->colChkCtx, &this->collider.base);
+        } else {
+            Player* player = GET_PLAYER(play);
+            this->collider.base.atFlags &= ~AT_HIT;
+            Animation_MorphToLoop(&this->skelAnime, &object_tite_Anim_0012E4, 4.0f);
+            this->actor.speed = -6.0f;
+            this->actor.world.rot.y = this->actor.yawTowardsPlayer;
+            if (&player->actor == this->collider.base.at && !(this->collider.base.atFlags & AT_BOUNCED)) {
+                Actor_PlaySfx(&player->actor, NA_SE_PL_BODY_HIT);
+            }
+            EnTite_SetupAction(this, EnTite_Recoil);
+        }
+    }
+    if (this->vAttackState == TEKTITE_LANDED) {
+        Math_SmoothStepToS(&this->actor.world.rot.y, this->actor.yawTowardsPlayer, 1, 1500, 0);
+    }
+    if (this->vAttackState == TEKTITE_SUBMERGED) {
+        Math_SmoothStepToF(&this->actor.velocity.y, 0.0f, 1.0f, 2.0f, 0.0f);
+        Math_SmoothStepToF(&this->actor.speed, 0.0f, 1.0f, 0.5f, 0.0f);
+        Math_SmoothStepToF(&this->actor.world.pos.y, this->actor.world.pos.y + this->actor.depthInWater, 1.0f, 2.0f, 0.0f);
+    }
+    if ( (this->actor.bgCheckFlags & BGCHECKFLAG_GROUND_TOUCH) && !(this->actor.bgCheckFlags & BGCHECKFLAG_WATER) ) {
+        func_80033480(play, &this->frontLeftFootPos, 1.0f, 2, 80, 15, 1);
+        func_80033480(play, &this->frontRightFootPos, 1.0f, 2, 80, 15, 1);
+        func_80033480(play, &this->backRightFootPos, 1.0f, 2, 80, 15, 1);
+        func_80033480(play, &this->backLeftFootPos, 1.0f, 2, 80, 15, 1);
+    }
+    
+    if (this->actor.params == TEKTITE_BLUE) {
+        if (this->actor.bgCheckFlags & BGCHECKFLAG_WATER_TOUCH) {
+            this->actor.speed = 0.0f;
+            Actor_PlaySfx(&this->actor, this->vAttackState == TEKTITE_SUBMERGED ? NA_SE_EN_TEKU_LAND_WATER : NA_SE_EN_TEKU_LAND_WATER2);
+            this->actor.bgCheckFlags &= ~BGCHECKFLAG_WATER_TOUCH;
+        }
+        else if (this->actor.bgCheckFlags & BGCHECKFLAG_GROUND_TOUCH) {
+            Actor_PlaySfx(&this->actor, NA_SE_EN_DODO_M_GND);
+        }
+    }
+    else if (this->actor.bgCheckFlags & BGCHECKFLAG_GROUND_TOUCH) {
+        this->actor.speed = 0.0f;
+        Actor_PlaySfx(&this->actor, NA_SE_EN_DODO_M_GND);
+    }*/
     switch (this->vAttackState) {
         case TEKTITE_BEGIN_LUNGE:
             // Slightly turn to player and switch to turning/idling action if the player is too far
@@ -767,6 +833,10 @@ void EnTite_DeathCry(EnTite* this, PlayState* play) {
  * Spawn EnPart and drop items
  */
 void EnTite_FallApart(EnTite* this, PlayState* play) {
+ /*if (BodyBreak_SpawnParts(&this->actor, &this->bodyBreak, play, this->actor.params + (this->actor.params == TEKTITE_YELLOW ? 23 : 0xB))) {
+      Item_DropCollectibleRandom(play, &this->actor, &this->actor.world.pos, (this->actor.params == TEKTITE_BLUE ? 0xE0 : 0x40));
+      Actor_Kill(&this->actor);
+  }*/
     if (BodyBreak_SpawnParts(&this->actor, &this->bodyBreak, play, this->actor.params + 0xB)) {
         if (this->actor.params == TEKTITE_BLUE) {
             Item_DropCollectibleRandom(play, &this->actor, &this->actor.world.pos, 0xE0);
@@ -965,6 +1035,18 @@ void EnTite_Update(Actor* thisx, PlayState* play) {
 void EnTite_PostLimbDraw(PlayState* play, s32 limbIndex, Gfx** limbDList, Vec3s* rot, void* thisx) {
     EnTite* this = (EnTite*)thisx;
 
+  /*if (limbIndex == 8) {
+        Matrix_MultVec3f(&sFootOffset, &this->backRightFootPos);
+    }
+    if (limbIndex == 13) {
+        Matrix_MultVec3f(&sFootOffset, &this->frontRightFootPos);
+    }
+    if (limbIndex == 18) {
+        Matrix_MultVec3f(&sFootOffset, &this->backLeftFootPos);
+    }
+    if (limbIndex == 23) {
+        Matrix_MultVec3f(&sFootOffset, &this->frontLeftFootPos);
+    }*/
     switch (limbIndex) {
         case 8:
             Matrix_MultVec3f(&sFootOffset, &this->backRightFootPos);
@@ -989,6 +1071,9 @@ void EnTite_Draw(Actor* thisx, PlayState* play) {
     OPEN_DISPS(play->state.gfxCtx, "../z_en_tite.c", 1704);
     Gfx_SetupDL_25Opa(play->state.gfxCtx);
     Collider_UpdateSpheres(0, &this->collider);
+  //gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL( (this->actor.params == TEKTITE_YELLOW) ? object_tite_Tex_yellow_body : (this->actor.params == TEKTITE_BLUE) ? object_tite_Tex_001300 : object_tite_Tex_001B00));
+  //gSPSegment(POLY_OPA_DISP++, 0x09, SEGMENTED_TO_VIRTUAL( (this->actor.params == TEKTITE_YELLOW) ? object_tite_Tex_yellow_eye  : (this->actor.params == TEKTITE_BLUE) ? object_tite_Tex_001700 : object_tite_Tex_001F00));
+  //gSPSegment(POLY_OPA_DISP++, 0x0A, SEGMENTED_TO_VIRTUAL( (this->actor.params == TEKTITE_YELLOW) ? object_tite_Tex_yellow_leg  : (this->actor.params == TEKTITE_BLUE) ? object_tite_Tex_001900 : object_tite_Tex_002100));
     if (this->actor.params == TEKTITE_BLUE) {
         gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(object_tite_Tex_001300));
         gSPSegment(POLY_OPA_DISP++, 0x09, SEGMENTED_TO_VIRTUAL(object_tite_Tex_001700));

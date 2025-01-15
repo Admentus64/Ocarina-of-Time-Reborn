@@ -90,6 +90,11 @@ void EnGm_Destroy(Actor* thisx, PlayState* play) {
 }
 
 s32 func_80A3D7C8(void) {
+  /*if (!GET_EVENTCHKINF(EVENTCHKINF_45))
+        return 0;
+    if (!GET_EVENTCHKINF(EVENTCHKINF_49))
+        return 2;
+    return !CHECK_OWNED_EQUIP_ALT(EQUIP_TYPE_SWORD, EQUIP_INV_SWORD_BIGGORON) || CHECK_OWNED_EQUIP_ALT(EQUIP_TYPE_SWORD, EQUIP_INV_SWORD_BROKENGIANTKNIFE) ? 1 : 3;*/
     if (LINK_AGE_IN_YEARS == YEARS_CHILD) {
         return 0;
     } else if (!CHECK_OWNED_EQUIP_ALT(EQUIP_TYPE_SWORD, EQUIP_INV_SWORD_BIGGORON)) {
@@ -209,6 +214,7 @@ void func_80A3DC44(EnGm* this, PlayState* play) {
                 return;
             case 1:
                 SET_INFTABLE(INFTABLE_B1);
+              //this->actionFunc = EnGm_ProcessChoiceIndex;
                 FALLTHROUGH;
             case 2:
                 this->actionFunc = EnGm_ProcessChoiceIndex;

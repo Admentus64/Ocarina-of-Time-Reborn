@@ -374,11 +374,14 @@ void Sram_InitDebugSave(void) {
     SET_EVENTCHKINF(EVENTCHKINF_C4);
 
     if (LINK_AGE_IN_YEARS == YEARS_CHILD) {
+      //gSaveContext.save.info.equips.buttonItems[0] = ITEM_SWORD_MASTER;
+      //Inventory_ChangeEquipment(EQUIP_TYPE_SWORD, EQUIP_VALUE_SWORD_MASTER);
         gSaveContext.save.info.equips.buttonItems[0] = ITEM_SWORD_KOKIRI;
         Inventory_ChangeEquipment(EQUIP_TYPE_SWORD, EQUIP_VALUE_SWORD_KOKIRI);
         if (gSaveContext.fileNum == 0xFF) {
             gSaveContext.save.info.equips.buttonItems[1] = ITEM_SLINGSHOT;
             gSaveContext.save.info.equips.cButtonSlots[0] = SLOT_SLINGSHOT;
+          //Inventory_ChangeEquipment(EQUIP_TYPE_SHIELD, EQUIP_VALUE_SHIELD_HYLIAN);
             Inventory_ChangeEquipment(EQUIP_TYPE_SHIELD, EQUIP_VALUE_SHIELD_DEKU);
         }
     }
@@ -499,6 +502,7 @@ void Sram_OpenSave(SramContext* sramCtx) {
                 }
             } else {
                 gSaveContext.save.entranceIndex = ENTR_LINKS_HOUSE_0;
+              //gSaveContext.save.linkAge = LINK_AGE_CHILD;
             }
             break;
     }

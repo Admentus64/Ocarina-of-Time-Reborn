@@ -522,6 +522,7 @@ void EnOssan_TalkZoraShopkeeper(PlayState* play) {
 
 // Goron City, Goron
 void EnOssan_TalkGoronShopkeeper(PlayState* play) {
+  //if (!GET_EVENTCHKINF(EVENTCHKINF_45) && play->sceneId - SCENE_BAZAAR >= 0) {
     if (LINK_AGE_IN_YEARS == YEARS_CHILD) {
         if (GET_EVENTCHKINF(EVENTCHKINF_25)) {
             Message_ContinueTextbox(play, 0x3028);
@@ -606,6 +607,7 @@ void EnOssan_Init(Actor* thisx, PlayState* play) {
         return;
     }
 
+  //if (this->actor.params == OSSAN_TYPE_KAKARIKO_POTION && !GET_EVENTCHKINF(EVENTCHKINF_45) && play->sceneId != SCENE_OUTSIDE_GANONS_CASTLE) {
     if (this->actor.params == OSSAN_TYPE_KAKARIKO_POTION && (LINK_AGE_IN_YEARS == YEARS_CHILD)) {
         Actor_Kill(&this->actor);
         return;

@@ -1799,6 +1799,7 @@ void EnXc_SetThrownAroundSFX(EnXc* this) {
 
 void EnXc_PlayLinkScreamSFX(EnXc* this, PlayState* play) {
     if (play->csCtx.curFrame == 1455) {
+      //Audio_PlayCutsceneEffectsSequence(SEQ_CS_EFFECTS_LINK_SCREAM);
         Audio_PlayCutsceneEffectsSequence(SEQ_CS_EFFECTS_BONGO_HURL_LINK);
     }
 }
@@ -2181,6 +2182,7 @@ void EnXc_DrawSquintingEyes(Actor* thisx, PlayState* play) {
 }
 
 void EnXc_InitTempleOfTime(EnXc* this, PlayState* play) {
+  //if (GET_EVENTCHKINF(EVENTCHKINF_45)
     if (LINK_IS_ADULT) {
         if (!GET_EVENTCHKINF(EVENTCHKINF_C5)) {
             SET_EVENTCHKINF(EVENTCHKINF_C5);
@@ -2341,6 +2343,12 @@ void EnXc_Update(Actor* thisx, PlayState* play) {
 
 void EnXc_Init(Actor* thisx, PlayState* play) {
     EnXc* this = (EnXc*)thisx;
+
+  /*if (!GET_EVENTCHKINF(EVENTCHKINF_45)) {
+        EnXc_DoNothing(this, play);
+        Actor_Kill(&this->actor);
+        return;
+    }*/
 
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 30.0f);
     SkelAnime_InitFlex(play, &this->skelAnime, &gSheikSkel, &gSheikIdleAnim, this->jointTable, this->morphTable,

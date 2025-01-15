@@ -50,6 +50,7 @@ static ColliderCylinderInit sCylinderInit = {
     { 50, 10, 0, { 0 } },
 };
 
+//static s16 sGrottoEntrances[] = { ENTR_GROTTOS_0, ENTR_GROTTOS_1, ENTR_GROTTOS_2, ENTR_GROTTOS_3, ENTR_GROTTOS_4, ENTR_GROTTOS_5, ENTR_GROTTOS_6, ENTR_GROTTOS_7, ENTR_GROTTOS_8, ENTR_GROTTOS_9, ENTR_GROTTOS_10, ENTR_GROTTOS_11, ENTR_GROTTOS_12, ENTR_GROTTOS_13, ENTR_GROTTOS_0_2, ENTR_GROTTOS_1_2, ENTR_GROTTOS_2_2, ENTR_GROTTOS_3_2, };
 static s16 sGrottoEntrances[] = {
     ENTR_FAIRYS_FOUNTAIN_0, ENTR_GROTTOS_0,  ENTR_GROTTOS_1,  ENTR_GROTTOS_2,  ENTR_GROTTOS_3,
     ENTR_GROTTOS_4,         ENTR_GROTTOS_5,  ENTR_GROTTOS_6,  ENTR_GROTTOS_7,  ENTR_GROTTOS_8,
@@ -130,12 +131,13 @@ void DoorAna_WaitOpen(DoorAna* this, PlayState* play) {
     if (Math_StepToF(&this->actor.scale.x, 0.01f, 0.001f)) {
         if ((this->actor.attentionRangeType != 0) && (play->transitionTrigger == TRANS_TRIGGER_OFF) &&
             (player->stateFlags1 & PLAYER_STATE1_31) && (player->av1.actionVar1 == 0)) {
-            destinationIdx = PARAMS_GET_U(this->actor.params, 12, 3) - 1;
+            destinationIdx = PARAMS_GET_U(this->actor.params, 12, 3) - 1; //
             Play_SetupRespawnPoint(play, RESPAWN_MODE_RETURN,
                                    PLAYER_PARAMS(PLAYER_START_MODE_GROTTO, PLAYER_START_BG_CAM_DEFAULT));
             gSaveContext.respawn[RESPAWN_MODE_RETURN].pos.y = this->actor.world.pos.y;
             gSaveContext.respawn[RESPAWN_MODE_RETURN].yaw = this->actor.home.rot.y;
             gSaveContext.respawn[RESPAWN_MODE_RETURN].data = PARAMS_GET_U(this->actor.params, 0, 16);
+          //play->nextEntranceIndex = PARAMS_GET_U(this->actor.params, 12, 3) == 0 ? sGrottoEntrances[this->actor.home.rot.z] : ENTR_FAIRYS_FOUNTAIN_0;
             if (destinationIdx < 0) {
                 destinationIdx = this->actor.home.rot.z + 1;
             }

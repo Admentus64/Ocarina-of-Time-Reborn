@@ -113,6 +113,7 @@ void Map_InitData(PlayState* play, s16 room) {
         case SCENE_LON_LON_RANCH:
         case SCENE_OUTSIDE_GANONS_CASTLE:
             extendedMapIndex = mapIndex;
+          //if (play->sceneId == SCENE_MARKET_ENTRANCE_RUINS) {
             if (play->sceneId == SCENE_GRAVEYARD) {
                 if (CHECK_QUEST_ITEM(QUEST_SONG_NOCTURNE)) {
                     extendedMapIndex = 0x14;
@@ -125,6 +126,7 @@ void Map_InitData(PlayState* play, s16 room) {
                 if ((LINK_AGE_IN_YEARS == YEARS_ADULT) && !GET_EVENTCHKINF_CARPENTERS_ALL_RESCUED()) {
                     extendedMapIndex = 0x16;
                 }
+          //} else if (play->sceneId == SCENE_TEMPLE_OF_TIME_EXTERIOR_RUINS) {
             } else if (play->sceneId == SCENE_GERUDOS_FORTRESS) {
                 if (GET_EVENTCHKINF_CARPENTERS_ALL_RESCUED()) {
                     extendedMapIndex = 0x17;

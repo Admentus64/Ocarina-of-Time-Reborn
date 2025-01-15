@@ -17,6 +17,11 @@ s32 Horse_CanSpawn(s32 sceneId) {
                             SCENE_LON_LON_RANCH };
     s32 i;
 
+  /*if (sceneId == SCENE_HYRULE_FIELD || sceneId == SCENE_LAKE_HYLIA || sceneId == SCENE_GERUDO_VALLEY || sceneId == SCENE_GERUDOS_FORTRESS || sceneId == SCENE_LON_LON_RANCH || sceneId == SCENE_MARKET_ENTRANCE_RUINS || sceneId == SCENE_TEMPLE_OF_TIME_EXTERIOR_RUINS)
+        return true;
+    if (sceneId == 0x70 || sceneId == 0x71 || sceneId == 0x72 || i >= 500)
+        return false;
+    return false;*/
     for (i = 0; i < ARRAY_COUNT(validSceneIds); i++) {
         if (sceneId == validSceneIds[i]) {
             return true;
@@ -68,6 +73,58 @@ void Horse_SetupInGameplay(PlayState* play, Player* player) {
         { SCENE_LON_LON_RANCH, 928, 0, -2280, 0, HORSE_PTYPE_INACTIVE },
     };
 
+  /*if (R_EXITED_SCENE_RIDING_HORSE && Flags_GetEventChkInf(EVENTCHKINF_EPONA_OBTAINED)) {
+        player->rideActor = Actor_Spawn(&play->actorCtx, play, ACTOR_EN_HORSE, player->actor.world.pos.x, player->actor.world.pos.y, player->actor.world.pos.z, player->actor.shape.rot.x, player->actor.shape.rot.y, player->actor.shape.rot.z, HORSE_PTYPE_PLAYER_SPAWNED_RIDING);
+
+        Actor_MountHorse(play, player, player->rideActor);
+        Actor_RequestHorseCameraSetting(play, player);
+        gSaveContext.save.info.horseData.sceneId = play->sceneId;
+        if (play->sceneId == SCENE_GERUDOS_FORTRESS) {
+            player->rideActor->room = -1;
+        }
+    }
+    else if (gSaveContext.minigameState == 3) {
+        Actor* horseActor;
+        gSaveContext.minigameState = 0;
+        horseActor = Actor_Spawn(&play->actorCtx, play, ACTOR_EN_HORSE, 3586.0f, 1413.0f, -402.0f, 0, 0x4000, 0, HORSE_PTYPE_1);
+        horseActor->room = -1;
+    }
+    else if (gSaveContext.save.entranceIndex == ENTR_LON_LON_RANCH_7 && GET_EVENTCHKINF(EVENTCHKINF_EPONA_OBTAINED)) {
+        Actor_Spawn(&play->actorCtx, play, ACTOR_EN_HORSE, -25.0f, 0.0f, -1600.0f, 0, -0x4000, 0, HORSE_PTYPE_1);
+    }
+    else if (play->sceneId == gSaveContext.save.info.horseData.sceneId && Flags_GetEventChkInf(EVENTCHKINF_EPONA_OBTAINED)) {
+        if (Horse_CanSpawn(gSaveContext.save.info.horseData.sceneId)) {
+            Actor* horseActor = Actor_Spawn(&play->actorCtx, play, ACTOR_EN_HORSE, gSaveContext.save.info.horseData.pos.x, gSaveContext.save.info.horseData.pos.y, gSaveContext.save.info.horseData.pos.z, 0, gSaveContext.save.info.horseData.angle, 0, HORSE_PTYPE_1);
+            if (play->sceneId == SCENE_GERUDOS_FORTRESS) {
+                horseActor->room = -1;
+            }
+        }
+        else {
+            Horse_ResetHorseData(play);
+        }
+    }
+    else if (!Flags_GetEventChkInf(EVENTCHKINF_EPONA_OBTAINED)) {
+        if (play->sceneId == SCENE_LON_LON_RANCH) {
+            Actor_Spawn(&play->actorCtx, play, ACTOR_EN_HORSE, 0.0f, 0.0f, -500.0f, 0, 0, 0, HORSE_PTYPE_1);
+        }
+        else if (play->sceneId == SCENE_LON_LON_BUILDINGS && !IS_DAY) {
+            Actor_Spawn(&play->actorCtx, play, ACTOR_EN_HORSE, 0.0f, 0.0f, -60.0f, 0, 0x7360, 0, HORSE_PTYPE_1);
+        }
+    }
+    else {
+        for (i=0; i<5; i++) {
+            HorseSpawn* horseSpawn = &horseSpawns[i];
+            if (horseSpawn->sceneId == play->sceneId) {
+                Actor* horseActor = Actor_Spawn(&play->actorCtx, play, ACTOR_EN_HORSE, horseSpawn->pos.x, horseSpawn->pos.y, horseSpawn->pos.z, 0, 0, 0, HORSE_PTYPE_INACTIVE);
+                if (play->sceneId == SCENE_GERUDOS_FORTRESS) {
+                    horseActor->room = -1;
+                }
+            }
+        }
+        if (play->sceneId == SCENE_MARKET_ENTRANCE_RUINS || play->sceneId == SCENE_TEMPLE_OF_TIME_EXTERIOR_RUINS || play->sceneId == 0x70) {
+            Actor_Spawn(&play->actorCtx, play, ACTOR_EN_HORSE, play->sceneId == SCENE_MARKET_ENTRANCE_RUINS ? -2428 : 176, play->sceneId == SCENE_MARKET_ENTRANCE_RUINS ? 40 : -178, play->sceneId == SCENE_MARKET_ENTRANCE_RUINS ? -128 : -532, 0, 0, 0, HORSE_PTYPE_INACTIVE);
+        }
+    }*/
     if (R_EXITED_SCENE_RIDING_HORSE &&
         (Flags_GetEventChkInf(EVENTCHKINF_EPONA_OBTAINED) || R_DEBUG_FORCE_EPONA_OBTAINED)) {
         // Player entering scene on top of horse
@@ -289,6 +346,7 @@ void Horse_SetupInCutscene(PlayState* play, Player* player) {
  * This function should be called during `Play_Init`.
  */
 void Horse_InitPlayerHorse(PlayState* play, Player* player) {
+  //if (play->sceneId != SCENE_LON_LON_RANCH || gSaveContext.sceneLayer != 5) {
     if (LINK_IS_ADULT) {
         if (!Horse_CanSpawn(gSaveContext.save.info.horseData.sceneId)) {
             PRINTF_COLOR_ERROR();
@@ -310,6 +368,7 @@ void Horse_InitPlayerHorse(PlayState* play, Player* player) {
                 // trapped in Lon Lon Ranch
                 ((play->sceneId == SCENE_LON_LON_RANCH) &&
                  (GET_EVENTINF_INGO_RACE_STATE() == INGO_RACE_STATE_TRAPPED_WIN_EPONA) &&
+               //!(Flags_GetEventChkInf(EVENTCHKINF_EPONA_OBTAINED)))) {
                  !(Flags_GetEventChkInf(EVENTCHKINF_EPONA_OBTAINED) || R_DEBUG_FORCE_EPONA_OBTAINED))) {
                 Horse_SetupInCutscene(play, player);
             } else {

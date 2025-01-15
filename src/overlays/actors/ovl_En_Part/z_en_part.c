@@ -65,6 +65,7 @@ void func_80ACDDE8(EnPart* this, PlayState* play) {
         case 4:
         case 9:
         case 10:
+      //case 20:
             this->timer += (s16)(Rand_ZeroOne() * 17.0f) + 5;
             FALLTHROUGH;
         case 2:
@@ -123,6 +124,26 @@ void func_80ACE13C(EnPart* this, PlayState* play) {
             this->actor.parent = NULL;
         }
     } else if (this->timer <= 0) {
+      /*if (this->actor.params == 1  || this->actor.params == 9  || this->actor.params == 10 || this->actor.params == 14 || this->actor.params == 3  || this->actor.params == 11 || this->actor.params == 20 || this->actor.params == 21 || this->actor.params == 22 || this->actor.params == 23 || this->actor.params == 24 || this->actor.params == 25) {
+            EffectSsDeadDb_Spawn(play, &this->actor.world.pos, &zeroVec, &zeroVec, (s16)(this->actor.scale.y * 100.0f) * 40, 7, 255, 255, 255, 255, 0, (this->actor.params == 3 || this->actor.params == 11) ? 0 : 255, (this->actor.params == 3 || this->actor.params == 11) ? 255 : 0, 1, 9, true);
+        }
+        else if (this->actor.params == 4) {
+            for (i=7; i>=0; i--) {
+                pos.x = this->actor.world.pos.x + Rand_CenteredFloat(60.0f);
+                pos.y = this->actor.world.pos.y + this->actor.shape.yOffset * this->actor.scale.y + Rand_CenteredFloat(50.0f);
+                pos.z = this->actor.world.pos.z + Rand_CenteredFloat(60.0f);
+                velocity.y = Rand_ZeroOne() + 1.0f;
+                EffectSsDtBubble_SpawnColorProfile(play, &pos, &velocity, &accel, Rand_S16Offset(80, 100), 25, 0, true);
+            }
+        }
+        else if (this->actor.params == 5 || this->actor.params == 6 || this->actor.params == 7 || this->actor.params == 8) {
+            for (i=4; i>=0; i--) {
+                pos.x = this->actor.world.pos.x + Rand_CenteredFloat(25.0f);
+                pos.y = this->actor.world.pos.y + Rand_CenteredFloat(40.0f);
+                pos.z = this->actor.world.pos.z + Rand_CenteredFloat(25.0f);
+                EffectSsDeadDb_Spawn(play, &pos, &zeroVec, &zeroVec, 40, 7, 255, 255, 255, 255, 0, 0, 255, 1, 9, true);
+            }
+        }*/
         switch (this->actor.params) {
             case 1:
             case 9:
@@ -303,6 +324,11 @@ void EnPart_Draw(Actor* thisx, PlayState* play) {
         gSPSegment(POLY_OPA_DISP++, 0x08, func_80ACEAC0(play->state.gfxCtx, 255, 255, 255, 180, 180, 180));
         gSPSegment(POLY_OPA_DISP++, 0x09, func_80ACEAC0(play->state.gfxCtx, 225, 205, 115, 25, 20, 0));
         gSPSegment(POLY_OPA_DISP++, 0x0A, func_80ACEAC0(play->state.gfxCtx, 225, 205, 115, 25, 20, 0));
+  /*} else if ( (thisx->params == 9 || thisx->params == 10 || thisx->params == 20) && this->displayList == object_tite_DL_002FF0) {
+        gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL( (thisx->params == 10) ? object_tite_Tex_001B00 : (thisx->params == 9) ? object_tite_Tex_001300 : object_tite_Tex_yellow_body));
+        gSPSegment(POLY_OPA_DISP++, 0x09, SEGMENTED_TO_VIRTUAL( (thisx->params == 10) ? object_tite_Tex_001F00 : (thisx->params == 9) ? object_tite_Tex_001700 : object_tite_Tex_yellow_eye));
+        gSPSegment(POLY_OPA_DISP++, 0x0A, SEGMENTED_TO_VIRTUAL( (thisx->params == 10) ? object_tite_Tex_002100 : (thisx->params == 9) ? object_tite_Tex_001900 : object_tite_Tex_yellow_leg));
+    }*/
     } else if ((thisx->params == 9) && (this->displayList == object_tite_DL_002FF0)) {
         gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(object_tite_Tex_001300));
         gSPSegment(POLY_OPA_DISP++, 0x09, SEGMENTED_TO_VIRTUAL(object_tite_Tex_001700));

@@ -46,6 +46,7 @@ void BgSpot18Shutter_Init(Actor* thisx, PlayState* play) {
     Actor_ProcessInitChain(&this->dyna.actor, sInitChain);
 
     if (param == 0) {
+      //if (GET_EVENTCHKINF(EVENTCHKINF_45) && param < 1 && param != 2) {
         if (LINK_AGE_IN_YEARS == YEARS_ADULT) {
             if (GET_INFTABLE(INFTABLE_109)) {
                 this->actionFunc = func_808B95AC;

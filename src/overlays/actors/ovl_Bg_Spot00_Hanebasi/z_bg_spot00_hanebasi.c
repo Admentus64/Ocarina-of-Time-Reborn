@@ -64,12 +64,13 @@ void BgSpot00Hanebasi_Init(Actor* thisx, PlayState* play) {
     this->dyna.bgId = DynaPoly_SetBgActor(play, &play->colCtx.dyna, &this->dyna.actor, colHeader);
 
     if (this->dyna.actor.params == DT_DRAWBRIDGE) {
-        if (LINK_IS_ADULT && !IS_CUTSCENE_LAYER) {
-            Actor_Kill(&this->dyna.actor);
-            return;
-        }
+        if (LINK_IS_ADULT && !IS_CUTSCENE_LAYER) { //
+            Actor_Kill(&this->dyna.actor); //
+            return; //
+        } //
 
         if ((gSaveContext.sceneLayer != 6) &&
+          //((gSaveContext.sceneLayer == 4) || (gSaveContext.sceneLayer == 5) || (!IS_DAY))) {
             ((gSaveContext.sceneLayer == 4) || (gSaveContext.sceneLayer == 5) || (!LINK_IS_ADULT && !IS_DAY))) {
             this->dyna.actor.shape.rot.x = -0x4000;
         } else {
@@ -141,11 +142,13 @@ void BgSpot00Hanebasi_DrawbridgeWait(BgSpot00Hanebasi* this, PlayState* play) {
         CHECK_QUEST_ITEM(QUEST_ZORA_SAPPHIRE) && !GET_EVENTCHKINF(EVENTCHKINF_80)) {
         return;
     }
-
+    
+  //if ((this->dyna.actor.shape.rot.x != 0) && (CutsceneFlags_Get(play, 0) || (!IS_CUTSCENE_LAYER && (IS_DAY || (GET_EVENTCHKINF(EVENTCHKINF_45) && EVENTCHKINF_EPONA_OBTAINED && gSaveContext.save.info.horseData.sceneId == SCENE_HYRULE_FIELD)) ))) {
     if ((this->dyna.actor.shape.rot.x != 0) && (CutsceneFlags_Get(play, 0) || (!IS_CUTSCENE_LAYER && IS_DAY))) {
         this->actionFunc = BgSpot00Hanebasi_DrawbridgeRiseAndFall;
         this->destAngle = 0;
         child->destAngle = 0;
+  //} else if ((this->dyna.actor.shape.rot.x == 0) && !IS_CUTSCENE_LAYER && !IS_DAY && (!GET_EVENTCHKINF(EVENTCHKINF_45) || !EVENTCHKINF_EPONA_OBTAINED || gSaveContext.save.info.horseData.sceneId != SCENE_HYRULE_FIELD) ) {
     } else if ((this->dyna.actor.shape.rot.x == 0) && !IS_CUTSCENE_LAYER && !LINK_IS_ADULT && !IS_DAY) {
         this->actionFunc = BgSpot00Hanebasi_DrawbridgeRiseAndFall;
         this->destAngle = -0x4000;

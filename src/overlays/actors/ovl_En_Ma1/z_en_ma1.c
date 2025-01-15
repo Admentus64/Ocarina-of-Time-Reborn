@@ -170,9 +170,9 @@ s32 EnMa1_ShouldSpawn(EnMa1* this, PlayState* play) {
         return true;
     }
 
-    if (!LINK_IS_CHILD) {
-        return false;
-    }
+    if (!LINK_IS_CHILD) { //
+        return false; //
+    } //
 
     if (((play->sceneId == SCENE_MARKET_NIGHT) || (play->sceneId == SCENE_MARKET_DAY)) &&
         !GET_EVENTCHKINF(EVENTCHKINF_TALON_RETURNED_FROM_CASTLE) &&
@@ -194,11 +194,12 @@ s32 EnMa1_ShouldSpawn(EnMa1* this, PlayState* play) {
         return true;
     }
 
-    if (play->sceneId != SCENE_LON_LON_RANCH) {
-        return false;
-    }
-
+    if (play->sceneId != SCENE_LON_LON_RANCH) { //
+        return false; //
+    } //
+    
     if ((this->actor.shape.rot.z == 3) && IS_DAY && GET_EVENTCHKINF(EVENTCHKINF_TALON_RETURNED_FROM_CASTLE)) {
+      //return !(GET_EVENTCHKINF(EVENTCHKINF_45) && CHECK_QUEST_ITEM(QUEST_SONG_EPONA));
         return true;
     }
 

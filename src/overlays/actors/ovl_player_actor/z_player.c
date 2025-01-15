@@ -2733,25 +2733,15 @@ void Player_UpdateItems(Player* this, PlayState* play) {
 }
 
 s32 func_80834380(PlayState* play, Player* this, s32* itemPtr, s32* typePtr) {
-    if (LINK_IS_ADULT) {
-        *itemPtr = ITEM_BOW;
-        if (this->stateFlags1 & PLAYER_STATE1_23) {
-            *typePtr = ARROW_NORMAL_HORSE;
-        } else {
-            *typePtr = ARROW_NORMAL + (this->heldItemAction - PLAYER_IA_BOW);
-        }
-    } else {
-        *itemPtr = ITEM_SLINGSHOT;
-        *typePtr = ARROW_SEED;
-    }
+    u32 is_slingshot = this->heldItemAction == PLAYER_IA_SLINGSHOT;
+    *itemPtr = ITEM_BOW + (is_slingshot * 3);
+    *typePtr = is_slingshot ? ARROW_SEED : ARROW_NORMAL + (this->heldItemAction - PLAYER_IA_BOW);
+    if (this->stateFlags1 & PLAYER_STATE1_23)
+        *typePtr = ARROW_NORMAL_HORSE;
 
-    if (gSaveContext.minigameState == 1) {
-        return play->interfaceCtx.hbaAmmo;
-    } else if (play->shootingGalleryStatus != 0) {
-        return play->shootingGalleryStatus;
-    } else {
-        return AMMO(*itemPtr);
-    }
+    if (gSaveContext.minigameState == 1)
+        return (play->shootingGalleryStatus != 0) ? play->shootingGalleryStatus : play->interfaceCtx.hbaAmmo;
+    return AMMO(*itemPtr);
 }
 
 s32 func_8083442C(Player* this, PlayState* play) {
@@ -5866,19 +5856,13 @@ void func_8083AA10(Player* this, PlayState* play) {
 s32 func_8083AD4C(PlayState* play, Player* this) {
     s32 camMode;
 
-    if (this->unk_6AD == 2) {
-        if (func_8002DD6C(this)) {
-            if (LINK_IS_ADULT) {
-                camMode = CAM_MODE_AIM_ADULT;
-            } else {
-                camMode = CAM_MODE_AIM_CHILD;
-            }
-        } else {
-            camMode = CAM_MODE_AIM_BOOMERANG;
-        }
-    } else {
+    camMode = CAM_MODE_AIM_BOOMERANG;
+    if (this->unk_6AD != 2)
         camMode = CAM_MODE_FIRST_PERSON;
-    }
+    else if (this->stateFlags1 & PLAYER_STATE1_3 && this->heldItemAction == PLAYER_IA_SLINGSHOT)
+        camMode = CAM_MODE_AIM_CHILD;
+    else if (this->stateFlags1 & PLAYER_STATE1_3)
+        camMode = CAM_MODE_AIM_ADULT;
 
     return Camera_RequestMode(Play_GetCamera(play, CAM_ID_MAIN), camMode);
 }
@@ -10529,6 +10513,9 @@ void Player_PutSwordInHand(PlayState* play, Player* this, s32 playSfx) {
     static u8 sSwordItemIds[] = { ITEM_SWORD_MASTER, ITEM_SWORD_KOKIRI };
     s32 swordItemId = sSwordItemIds[(void)0, gSaveContext.save.linkAge];
     s32 swordItemAction = sItemActions[swordItemId];
+  //s32 swordItemId = this->currentSwordItemId;
+  //s32 swordItemAction = sItemActions[swordItemId];
+  //if (swordItemId <= -1) { swordItemId = this->currentSwordItemId = -1; }
 
     Player_DestroyHookshot(this);
     Player_DetachHeldActor(play, this);
@@ -12233,7 +12220,7 @@ void Player_Draw(Actor* thisx, PlayState* play2) {
         s32 pad;
 
         if ((this->csAction != PLAYER_CSACTION_NONE) || (Player_CheckHostileLockOn(this) && 0) ||
-            (this->actor.projectedPos.z < 160.0f)) {
+            (this->actor.projectedPos.z < 2000.0f)) {
             lod = 0;
         } else {
             lod = 1;
@@ -15034,6 +15021,7 @@ static struct_80854B18 D_80854B18[PLAYER_CSACTION_MAX] = {
     { 6, &gPlayerAnim_link_shagamu_demo },               // PLAYER_CSACTION_60
     { 14, &gPlayerAnim_link_okiru_demo },                // PLAYER_CSACTION_61
     { 3, &gPlayerAnim_link_okiru_demo },                 // PLAYER_CSACTION_62
+  //{ 2, &gPlayerAnim_link_fighter_power_kiru_start },   // PLAYER_CSACTION_63
     { 5, &gPlayerAnim_link_fighter_power_kiru_start },   // PLAYER_CSACTION_63
     { 16, &gPlayerAnim_demo_link_nwait },                // PLAYER_CSACTION_64
     { 15, &gPlayerAnim_demo_link_tewatashi },            // PLAYER_CSACTION_65
@@ -15041,6 +15029,8 @@ static struct_80854B18 D_80854B18[PLAYER_CSACTION_MAX] = {
     { 3, &gPlayerAnim_d_link_orooro },                   // PLAYER_CSACTION_67
     { 3, &gPlayerAnim_d_link_imanodare },                // PLAYER_CSACTION_68
     { 3, &gPlayerAnim_link_hatto_demo },                 // PLAYER_CSACTION_69
+  //{ 3, &gPlayerAnim_o_get_mae },                       // PLAYER_CSACTION_70
+  //{ 3, &gPlayerAnim_o_get_ato },                       // PLAYER_CSACTION_71
     { 6, &gPlayerAnim_o_get_mae },                       // PLAYER_CSACTION_70
     { 6, &gPlayerAnim_o_get_ato },                       // PLAYER_CSACTION_71
     { 6, &gPlayerAnim_om_get_mae },                      // PLAYER_CSACTION_72
@@ -15050,6 +15040,8 @@ static struct_80854B18 D_80854B18[PLAYER_CSACTION_MAX] = {
     { 4, &gPlayerAnim_link_demo_sita_wait },             // PLAYER_CSACTION_76
     { 3, &gPlayerAnim_link_demo_ue },                    // PLAYER_CSACTION_77
     { 3, &gPlayerAnim_Link_muku },                       // PLAYER_CSACTION_78
+  //{ 0, &gPlayerAnim_Link_miageru },                    // PLAYER_CSACTION_79
+  //{ 3, &gPlayerAnim_Link_ha },                         // PLAYER_CSACTION_80
     { 3, &gPlayerAnim_Link_miageru },                    // PLAYER_CSACTION_79
     { 6, &gPlayerAnim_Link_ha },                         // PLAYER_CSACTION_80
     { 3, &gPlayerAnim_L_1kyoro },                        // PLAYER_CSACTION_81
@@ -15519,7 +15511,7 @@ void func_80851A50(PlayState* play, Player* this, CsCmdActorCue* cue) {
         this->interactRangeActor->parent = &this->actor;
 
         if (!LINK_IS_ADULT) {
-            dLists = gPlayerLeftHandBgsDLs;
+            dLists = gPlayerLeftHandBgsDLs + 6;
         } else {
             dLists = gPlayerLeftHandClosedDLs;
         }

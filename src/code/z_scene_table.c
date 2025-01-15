@@ -1226,7 +1226,7 @@ void Scene_DrawConfigLakeHylia(PlayState* play) {
 
     OPEN_DISPS(play->state.gfxCtx, "../z_scene_table.c", 7058);
 
-    if (IS_CUTSCENE_LAYER || (LINK_IS_ADULT && !GET_EVENTCHKINF(EVENTCHKINF_RESTORED_LAKE_HYLIA))) {
+    if (IS_CUTSCENE_LAYER || (gSaveContext.sceneLayer > 1 && !GET_EVENTCHKINF(EVENTCHKINF_RESTORED_LAKE_HYLIA))) {
         play->roomCtx.drawParams[0] = 87;
     }
 
@@ -1256,6 +1256,7 @@ void Scene_DrawConfigZorasDomain(PlayState* play) {
     OPEN_DISPS(play->state.gfxCtx, "../z_scene_table.c", 7123);
 
     gameplayFrames = play->gameplayFrames;
+  //var = (gameplayFrames ^ 127) & - (gSaveContext.sceneLayer != SCENE_LAYER_ADULT_DAY);
     var = 127 - (gameplayFrames * 1) % 128;
     if (LINK_IS_ADULT) {
         var = 0;
