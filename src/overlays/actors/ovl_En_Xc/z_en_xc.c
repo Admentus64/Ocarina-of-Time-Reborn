@@ -8,8 +8,10 @@
 #include "overlays/actors/ovl_En_Arrow/z_en_arrow.h"
 #include "overlays/actors/ovl_Door_Warp1/z_door_warp1.h"
 
+#include "array_count.h"
 #include "gfx.h"
 #include "gfx_setupdl.h"
+#include "printf.h"
 #include "regs.h"
 #include "segmented_address.h"
 #include "sequence.h"
@@ -17,6 +19,7 @@
 #include "sys_math3d.h"
 #include "sys_matrix.h"
 #include "terminal.h"
+#include "translation.h"
 #include "z_lib.h"
 #include "z64audio.h"
 #include "z64effect.h"

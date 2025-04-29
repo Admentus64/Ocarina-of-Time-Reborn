@@ -1,8 +1,8 @@
 #include "transition_circle.h"
 
+#include "color.h"
 #include "gfx.h"
-
-#include "global.h"
+#include "sfx.h"
 
 typedef enum TransitionCircleDirection {
     /* 0 */ TRANS_CIRCLE_DIR_IN,

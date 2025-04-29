@@ -2,8 +2,7 @@
 
 #include "alignment.h"
 #include "fault.h"
-
-#include "global.h"
+#include "translation.h"
 
 #define NODE_MAGIC 0x7373
 
